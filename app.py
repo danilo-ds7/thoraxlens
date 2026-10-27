@@ -263,7 +263,8 @@ def responder_con_claude(prompt: str, instrucciones: str) -> StreamingResponse:
             ) as respuesta:
                 yield from respuesta.text_stream
         except Exception as e:  # error del proveedor: se muestra dentro del texto
-            yield f"\n\n_No se pudo generar la respuesta ({type(e).__name__})._"
+            detalle = re.sub(r"\s+", " ", str(getattr(e, "message", None) or e))[:200]
+            yield f"\n\n_No se pudo generar la respuesta ({type(e).__name__}: {detalle})._"
 
     return StreamingResponse(flujo(), media_type="text/plain; charset=utf-8")
 
