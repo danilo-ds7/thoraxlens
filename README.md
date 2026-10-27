@@ -113,7 +113,15 @@ Frontend y backend corren en una VM propia con `docker compose` (proyecto, red e
    - `/content/web/public/ejemplos/` (3 ejemplos + carpeta `desafio/` + `desafio.json`) → `web/public/ejemplos/`
 4. Completar la tabla de la sección 3 con los números impresos en el notebook (ya hecho para la ejecución del 27-10-2026).
 
-### Paso 2 · Desplegar en la VM
+### Opción rápida · Publicar desde un Mac (sin servidor)
+
+```bash
+git clone https://github.com/danilo-ds7/thoraxlens ~/thoraxlens && cd ~/thoraxlens && ./scripts/publicar-mac.sh
+```
+
+Requiere Docker Desktop. El script instala `cloudflared` (Homebrew), pide la `ANTHROPIC_API_KEY`, levanta los contenedores y abre un **túnel rápido de Cloudflare**: imprime una URL pública `https://….trycloudflare.com` (válida mientras el Mac esté encendido) y la clave de acceso a la IA generativa. Para apagar: `./scripts/publicar-mac.sh detener`.
+
+### Paso 2 · Desplegar en una VM
 
 ```bash
 git clone https://github.com/danilo-ds7/thoraxlens && cd thoraxlens

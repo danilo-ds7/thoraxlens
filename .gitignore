@@ -19,3 +19,4 @@ codigo_clases/
 ENUNCIADO.md
 notebooks/*.pt
 acceso/
+.tunel.log
