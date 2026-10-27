@@ -1,0 +1,22 @@
+{
+  "clases": [
+    {
+      "id": "benign",
+      "nombre": "Benigno",
+      "color": "#fbbf24",
+      "descripcion": "El corte muestra un nódulo o lesión que el modelo asocia con los casos benignos (no cancerosos) del dataset. Igual requiere seguimiento médico."
+    },
+    {
+      "id": "malignant",
+      "nombre": "Maligno",
+      "color": "#fb7185",
+      "descripcion": "El corte muestra hallazgos que el modelo asocia con cáncer de pulmón. Es la clase donde un error del modelo es más costoso."
+    },
+    {
+      "id": "normal",
+      "nombre": "Normal",
+      "color": "#34d399",
+      "descripcion": "El modelo no reconoce lesiones de las categorías entrenadas en este corte. No descarta otras condiciones ni cortes vecinos."
+    }
+  ]
+}
