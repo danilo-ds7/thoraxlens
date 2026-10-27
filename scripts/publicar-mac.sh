@@ -17,7 +17,8 @@ if [[ "${1:-}" == "detener" ]]; then
   exit 0
 fi
 
-# 1. Docker Desktop
+# 1. Docker Desktop (su CLI vive dentro de la app; se agrega al PATH por si la Terminal aún no lo ve)
+export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin:/usr/local/bin:/opt/homebrew/bin"
 if ! command -v docker >/dev/null; then
   rojo "Falta Docker Desktop. Instálalo desde https://www.docker.com/products/docker-desktop/ (o: brew install --cask docker), ábrelo y vuelve a correr este script."
   exit 1
