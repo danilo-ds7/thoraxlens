@@ -103,6 +103,9 @@ def normalizar(clave: str) -> str:
 
 
 def clave_actual() -> str | None:
+    """Clave vigente: variable CLAVE_ACCESO (secreto en Hugging Face Spaces) o el archivo rotativo."""
+    if os.getenv("CLAVE_ACCESO"):
+        return normalizar(os.environ["CLAVE_ACCESO"]) or None
     try:
         return normalizar(ARCHIVO_CLAVE.read_text()) or None
     except OSError:

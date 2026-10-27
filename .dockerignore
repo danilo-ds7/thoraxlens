@@ -1,7 +1,6 @@
 .venv
 datos
 runs
-web
 notebooks
 codigo_clases
 ejemplos
@@ -11,3 +10,6 @@ __pycache__
 *.md
 acceso
 scripts
+web/node_modules
+web/.next
+web/.env*

@@ -1,0 +1,27 @@
+# Despliega el repositorio en el Space de Hugging Face en cada push a main.
+# Requiere en GitHub → Settings → Secrets → Actions:
+#   HF_TOKEN   token de Hugging Face con permiso de escritura
+#   HF_SPACE   nombre del Space, p. ej. danilo-ds7/thoraxlens
+name: Desplegar en Hugging Face Spaces
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Preparar y subir al Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_SPACE: ${{ secrets.HF_SPACE }}
+        run: |
+          test -n "$HF_TOKEN" -a -n "$HF_SPACE" || { echo "Faltan los secretos HF_TOKEN / HF_SPACE"; exit 1; }
+          rm -rf /tmp/space && mkdir /tmp/space
+          git archive HEAD | tar -x -C /tmp/space
+          cp README_HF.md /tmp/space/README.md
+          cd /tmp/space && git init -q -b main && git config user.name "github-actions" && git config user.email "actions@github.com"
+          git add -A && git commit -qm "Deploy desde GitHub ${GITHUB_SHA::7}"
+          git push -f "https://user:${HF_TOKEN}@huggingface.co/spaces/${HF_SPACE}" main

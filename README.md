@@ -92,7 +92,8 @@ Frontend y backend corren en una VM propia con `docker compose` (proyecto, red e
 ├── app.py                     ← API FastAPI (modelo + Grad-CAM + Claude)
 ├── requirements.txt           ← dependencias de la app
 ├── requirements-notebook.txt  ← extras para el notebook
-├── Dockerfile                 ← imagen del backend
+├── Dockerfile                 ← imagen para Hugging Face Spaces (frontend + backend)
+├── Dockerfile.api             ← imagen del backend (docker compose)
 ├── docker-compose.yml         ← despliegue aislado (api + web)
 ├── scripts/rotar-clave.sh     ← genera/rota la clave de acceso
 ├── notebooks/entrenamiento.ipynb  ← datos, comparación de modelos y métricas (ejecutar en Colab)
@@ -112,6 +113,15 @@ Frontend y backend corren en una VM propia con `docker compose` (proyecto, red e
    - `/content/ejemplos/*.jpg` → `ejemplos/`
    - `/content/web/public/ejemplos/` (3 ejemplos + carpeta `desafio/` + `desafio.json`) → `web/public/ejemplos/`
 4. Completar la tabla de la sección 3 con los números impresos en el notebook (ya hecho para la ejecución del 27-10-2026).
+
+### Opción nube · Hugging Face Spaces (gratis, siempre encendido, sin terminal)
+
+Un solo contenedor (`Dockerfile`) corre el frontend y el backend; el *workflow* `.github/workflows/deploy-hf.yml` lo sube al Space en cada push a `main`.
+
+1. Crear un Space en https://huggingface.co/new-space → SDK **Docker** (en blanco), público.
+2. En el Space → *Settings* → *Variables and secrets* agregar los secretos `ANTHROPIC_API_KEY` y `CLAVE_ACCESO` (la clave que desbloquea la IA generativa, p. ej. `ABCD-EFGH-JKLM`).
+3. Crear un token de escritura en https://huggingface.co/settings/tokens y guardarlo en GitHub → *Settings* → *Secrets and variables* → *Actions* como `HF_TOKEN`, junto con `HF_SPACE` = `usuario/nombre-del-space`.
+4. Lanzar el workflow (*Actions* → *Desplegar en Hugging Face Spaces* → *Run workflow*). La primera construcción toma ~10 min.
 
 ### Opción rápida · Publicar desde un Mac (sin servidor)
 

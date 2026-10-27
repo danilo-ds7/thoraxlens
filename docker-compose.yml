@@ -5,7 +5,9 @@ name: thoraxlens
 
 services:
   api:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.api
     env_file: .env                 # ANTHROPIC_API_KEY (no se sube a GitHub)
     volumes:
       - ./acceso:/app/acceso:ro    # clave de acceso rotativa (solo lectura, generada por scripts/rotar-clave.sh)
