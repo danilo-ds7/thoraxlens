@@ -6,7 +6,7 @@
 
 | | |
 |---|---|
-| 🌐 App | https://thoraxlens.cvdi.cl *(pendiente de publicar; ver sección 7)* |
+| 🌐 App | https://thoraxlens.cvdi.cl *(pendiente de publicar en la VM; ver sección 7)* |
 | 💻 Repositorio | https://github.com/danilo-ds7/thoraxlens |
 | 👤 Autor | Danilo Gómez Correa |
 
@@ -32,7 +32,7 @@ El cáncer de pulmón es uno de los cánceres más frecuentes y letales; detecta
 | Clases | `benign` · `malignant` · `normal` |
 | Original | ≈ 1.100–1.200 cortes: 55 casos normales, 40 malignos y 15 benignos |
 
-**Cómo dividimos:** se eliminan duplicados exactos (hash MD5) y se hace una división estratificada 70/15/15 con semilla 42. *(Las cifras por clase y conjunto se imprimen en el notebook al ejecutarlo.)*
+**Cómo dividimos:** 1.097 imágenes originales; se eliminan duplicados exactos (hash MD5) y se hace una división estratificada 70/15/15 con semilla 42 → **737 train / 158 val / 159 test**.
 
 **Desbalance fuerte:** *benigno* es ~10 % del total; por eso la métrica principal es la **accuracy balanceada** (azar = 33 %) y se mira el recall de cada clase por separado.
 
@@ -46,15 +46,19 @@ Los tres enfoques se evalúan con **la misma métrica sobre el mismo conjunto de
 
 | Enfoque | Accuracy balanceada | Falsos negativos* | Tamaño | ms/imagen (CPU) |
 |---|---|---|---|---|
-| CLIP ViT-B/32 zero-shot (línea base) | *(completar)* | — | 605 MB | *(completar)* |
-| EfficientNet-B0 (`timm`, transfer learning) | *(completar)* | *(completar)* | ≈16 MB | *(completar)* |
-| **YOLO-cls nano (`ultralytics`) — elegido** | *(completar)* | *(completar)* | ≈3 MB | *(completar)* |
+| CLIP ViT-B/32 zero-shot (línea base) | 43,1 % | 58 | 605 MB | 573 |
+| **EfficientNet-B0 (`timm`, transfer learning)** | **94,7 %** | **0** | 16,3 MB | 35 |
+| YOLO-cls nano (`ultralytics`) — en la app | 84,3 % | 0 | 3,2 MB | 17 |
 
-\* corte maligno clasificado como "normal" o "benigno".
+\* corte maligno clasificado como "normal" o "benigno", de 82 malignos en prueba.
 
-> Los valores se obtienen al ejecutar [`notebooks/entrenamiento.ipynb`](notebooks/entrenamiento.ipynb) en Google Colab (sección 7 del notebook imprime esta tabla). Copiarlos aquí y confirmar la elección del modelo: el criterio es accuracy balanceada → menos falsos negativos → menor costo de operación.
+**Resultado honesto:** en este dataset **EfficientNet-B0 rinde mejor** que YOLO-cls nano en la métrica principal (+10 puntos de accuracy balanceada); ambos detectan el 100 % de los malignos. La diferencia está en la clase *benigno* (solo 16 imágenes de prueba): YOLO acierta 9/16, EfficientNet más. La app usa YOLO-cls nano porque el backend y el Grad-CAM están construidos sobre esa arquitectura y es 5× más liviano y 2× más rápido en CPU; **mejora pendiente:** migrar el backend a EfficientNet o reentrenar YOLO con más épocas y pesos de clase para subir el recall de *benigno*.
 
-**Umbral de confianza:** calibrado en **validación** (menor umbral con ≥ 99 % de acierto sobre él). Bajo ese valor la app pide revisión humana.
+**Métricas de YOLO-cls nano en prueba (159 imágenes):** accuracy 94,3 % · accuracy balanceada 84,3 % · recall benigno 56 % / maligno 100 % / normal 97 % · sensibilidad "es maligno" 100 % · especificidad 100 %.
+
+**Error más costoso:** 0 de 82 cortes malignos se clasificaron como normal o benigno. Aun así la app nunca "descarta": siempre recomienda revisión profesional.
+
+**Umbral de confianza:** calibrado en **validación** (menor umbral con ≥ 99 % de acierto sobre él) → **67 %**. Bajo ese valor la app pide revisión humana.
 
 ## 4. Arquitectura
 
@@ -92,8 +96,8 @@ Frontend y backend corren en una VM propia con `docker compose` (proyecto, red e
 ├── docker-compose.yml         ← despliegue aislado (api + web)
 ├── scripts/rotar-clave.sh     ← genera/rota la clave de acceso
 ├── notebooks/entrenamiento.ipynb  ← datos, comparación de modelos y métricas (ejecutar en Colab)
-├── modelo/                    ← clases.json (incluido) + yolo_cls.pt y metricas.json (los genera el notebook)
-├── ejemplos/                  ← 3 imágenes de prueba (una por clase; las genera el notebook)
+├── modelo/                    ← yolo_cls.pt (3 MB), clases.json, metricas.json
+├── ejemplos/                  ← 3 imágenes de prueba (una por clase)
 └── web/                       ← frontend Next.js (con su Dockerfile)
 ```
 
@@ -107,7 +111,7 @@ Frontend y backend corren en una VM propia con `docker compose` (proyecto, red e
    - `/content/modelo/yolo_cls.pt` y `/content/modelo/metricas.json` → `modelo/`
    - `/content/ejemplos/*.jpg` → `ejemplos/`
    - `/content/web/public/ejemplos/` (3 ejemplos + carpeta `desafio/` + `desafio.json`) → `web/public/ejemplos/`
-4. Completar la tabla de la sección 3 con los números impresos en el notebook.
+4. Completar la tabla de la sección 3 con los números impresos en el notebook (ya hecho para la ejecución del 27-10-2026).
 
 ### Paso 2 · Desplegar en la VM
 

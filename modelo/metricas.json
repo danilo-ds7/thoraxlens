@@ -1,0 +1,65 @@
+{
+  "modelo": "YOLO-cls nano",
+  "accuracy": 0.9433962264150944,
+  "balanced_accuracy": 0.8432377049180327,
+  "n_test": 159,
+  "n_train": 737,
+  "n_val": 158,
+  "recall_por_clase": {
+    "benign": 0.5625,
+    "malignant": 1.0,
+    "normal": 0.9672131147540983
+  },
+  "precision_por_clase": {
+    "benign": 0.8181818181818182,
+    "malignant": 1.0,
+    "normal": 0.8939393939393939
+  },
+  "matriz_confusion": [
+    [
+      9,
+      0,
+      7
+    ],
+    [
+      0,
+      82,
+      0
+    ],
+    [
+      2,
+      0,
+      59
+    ]
+  ],
+  "sensibilidad_maligno": 1.0,
+  "especificidad_maligno": 1.0,
+  "falsos_negativos": 0,
+  "umbral": 0.67,
+  "comparacion": [
+    {
+      "modelo": "CLIP zero-shot",
+      "balanced_accuracy": 0.43089430894308944,
+      "accuracy": 0.25157232704402516,
+      "falsos_negativos": 58,
+      "tamano_mb": 605.0,
+      "ms_por_imagen": 572.9
+    },
+    {
+      "modelo": "EfficientNet-B0 (timm)",
+      "balanced_accuracy": 0.9474043715846995,
+      "accuracy": 0.9748427672955975,
+      "falsos_negativos": 0,
+      "tamano_mb": 16.3,
+      "ms_por_imagen": 34.7
+    },
+    {
+      "modelo": "YOLO-cls nano",
+      "balanced_accuracy": 0.8432377049180327,
+      "accuracy": 0.9433962264150944,
+      "falsos_negativos": 0,
+      "tamano_mb": 3.2,
+      "ms_por_imagen": 16.8
+    }
+  ]
+}

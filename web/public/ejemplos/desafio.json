@@ -1,0 +1,74 @@
+[
+ {
+  "archivo": "desafio/00.jpg",
+  "clase": "benign"
+ },
+ {
+  "archivo": "desafio/01.jpg",
+  "clase": "benign"
+ },
+ {
+  "archivo": "desafio/02.jpg",
+  "clase": "normal"
+ },
+ {
+  "archivo": "desafio/03.jpg",
+  "clase": "malignant"
+ },
+ {
+  "archivo": "desafio/04.jpg",
+  "clase": "benign"
+ },
+ {
+  "archivo": "desafio/05.jpg",
+  "clase": "normal"
+ },
+ {
+  "archivo": "desafio/06.jpg",
+  "clase": "normal"
+ },
+ {
+  "archivo": "desafio/07.jpg",
+  "clase": "benign"
+ },
+ {
+  "archivo": "desafio/08.jpg",
+  "clase": "malignant"
+ },
+ {
+  "archivo": "desafio/09.jpg",
+  "clase": "benign"
+ },
+ {
+  "archivo": "desafio/10.jpg",
+  "clase": "normal"
+ },
+ {
+  "archivo": "desafio/11.jpg",
+  "clase": "malignant"
+ },
+ {
+  "archivo": "desafio/12.jpg",
+  "clase": "normal"
+ },
+ {
+  "archivo": "desafio/13.jpg",
+  "clase": "malignant"
+ },
+ {
+  "archivo": "desafio/14.jpg",
+  "clase": "malignant"
+ },
+ {
+  "archivo": "desafio/15.jpg",
+  "clase": "malignant"
+ },
+ {
+  "archivo": "desafio/16.jpg",
+  "clase": "benign"
+ },
+ {
+  "archivo": "desafio/17.jpg",
+  "clase": "normal"
+ }
+]
