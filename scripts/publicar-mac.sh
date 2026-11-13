@@ -60,7 +60,7 @@ pkill -f "cloudflared tunnel --url http://localhost:$PUERTO" 2>/dev/null || true
 nohup cloudflared tunnel --url "http://localhost:$PUERTO" > "$LOG_TUNEL" 2>&1 &
 URL=""
 for _ in $(seq 1 40); do
-  URL=$(grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' "$LOG_TUNEL" | head -1 || true)
+  URL=$(grep -ao 'https://[a-z0-9-]*\.trycloudflare\.com' "$LOG_TUNEL" | head -1 || true)
   [[ -n "$URL" ]] && break; sleep 1
 done
 [[ -n "$URL" ]] || { rojo "No se obtuvo la URL del túnel; revisa $LOG_TUNEL"; exit 1; }
